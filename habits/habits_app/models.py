@@ -47,7 +47,7 @@ class Habit(models.Model):
         if not self.is_pleasant else None}'''
 
     class Meta:
-        verbose_name = 'Привычка'
+        verbose_name = 'Привычку'
         verbose_name_plural = 'Привычки'
         ordering = 'action',
 
