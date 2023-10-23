@@ -31,6 +31,8 @@ ADMINS = [
 # Application definition
 INSTALLED_APPS = [
 
+    'habits_app.apps.HabitsAppConfig',
+    
     'rest_framework',
     'django_celery_beat',
     'corsheaders',
