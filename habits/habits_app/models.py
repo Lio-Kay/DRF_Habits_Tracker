@@ -3,6 +3,8 @@ from django.core.validators import MaxValueValidator
 from django.core.exceptions import ValidationError
 
 from habits_app.apps import HabitsAppConfig
+from accounts.models import User
+
 
 app_name = HabitsAppConfig.name
 
@@ -37,7 +39,8 @@ class Habit(models.Model):
     reward = models.CharField(**NULLABLE, max_length=100,
                               verbose_name='Вознаграждение за привычку')
 
-    # creator = models.ManyToManyField(**NULLABLE, to=,verbose_name='Создатель привычки')
+    creator = models.ForeignKey(**NULLABLE, to=User, on_delete=models.SET_NULL,
+                                verbose_name='Создатель привычки')
     is_public = models.BooleanField(default=False,
                                     verbose_name='Признак публичности')
 
