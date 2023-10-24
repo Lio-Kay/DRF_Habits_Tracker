@@ -9,6 +9,7 @@ app_name = HabitsAppConfig.name
 
 NULLABLE = {'blank': True, 'null': True}
 
+
 class Habit(models.Model):
     """Модель привычки"""
     action = models.CharField(max_length=100,
