@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
-from django.core.exceptions import ValidationError
 
 from habits_app.apps import HabitsAppConfig
 from accounts.models import User
@@ -9,7 +8,6 @@ from accounts.models import User
 app_name = HabitsAppConfig.name
 
 NULLABLE = {'blank': True, 'null': True}
-
 
 class Habit(models.Model):
     """Модель привычки"""
@@ -53,25 +51,3 @@ class Habit(models.Model):
         verbose_name = 'Привычку'
         verbose_name_plural = 'Привычки'
         ordering = 'action',
-
-    def clean(self):
-        super().clean()
-        if self.is_pleasant:
-            if self.reward or self.related_pleasant_habit:
-                raise ValidationError(
-                    "У приятной привычки не может быть вознаграждения "
-                    "или связанной привычки.")
-        else:
-            if not self.related_pleasant_habit and not self.reward:
-                raise ValidationError(
-                    "У полезной привычки должно быть вознаграждение"
-                    " либо связанная приятная привычка.")
-            if self.related_pleasant_habit and self.reward:
-                raise ValidationError(
-                    "У полезной привычки не может быть одновременно и "
-                    "вознаграждение и связанная приятная привычка")
-            if self.related_pleasant_habit:
-                if self.related_pleasant_habit.is_pleasant is False:
-                    raise ValidationError(
-                        "В связанные привычки могут попадать только "
-                        "привычки с признаком приятной привычки.")
