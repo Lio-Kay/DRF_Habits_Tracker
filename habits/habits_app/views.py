@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
 from datetime import datetime
 import calendar
 
@@ -15,14 +16,21 @@ class HabitListPersonalCreateAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         new_habit = serializer.save()
+        if new_habit.time is None:
+            new_habit.time = datetime.now().time()
         if new_habit.is_pleasant is False:
             current_day = datetime.now().weekday()
             new_habit.created_at = calendar.day_name[current_day]
+            if new_habit.frequency is None:
+                new_habit.frequency = 'DLY'
         new_habit.creator = self.request.user
         new_habit.save()
 
     def get_queryset(self):
-        return Habit.objects.all().filter(creator=self.request.user.pk)
+        user = self.request.user
+        if user.is_superuser:
+            return Habit.objects.all()
+        return Habit.objects.all().filter(creator=user.pk)
 
 
 class HabitListPublicAPIView(generics.ListAPIView):
@@ -36,4 +44,4 @@ class HabitRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """Вьюсет на детальный вывод, редактирование, удаление привычки"""
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
-    permission_classes = [IsOwner]
+    permission_classes = [IsOwner, IsAdminUser]
