@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
+from django.db.models.constraints import CheckConstraint
+
 
 from habits_app.apps import HabitsAppConfig
 from accounts.models import User
@@ -29,7 +31,17 @@ class Habit(models.Model):
     ]
     frequency = models.CharField(default='DLY', choices=frequency_choices,
                                  verbose_name='Частота выполнения')
-    created_at = models.CharField(**NULLABLE, verbose_name='День создания')
+    created_at_choices = [
+        ('Monday', 'Понедельник'),
+        ('Tuesday', 'Вторник'),
+        ('Wednesday', 'Среда'),
+        ('Thursday', 'Четверг'),
+        ('Friday', 'Пятница'),
+        ('Saturday', 'Суббота'),
+        ('Sunday', 'Воскресенье'),
+    ]
+    created_at = models.CharField(**NULLABLE, choices=created_at_choices,
+                                  verbose_name='День создания')
     place = models.CharField(**NULLABLE, max_length=100,
                              verbose_name='Место выполнения')
     is_pleasant = models.BooleanField(default=False,
@@ -53,3 +65,10 @@ class Habit(models.Model):
         verbose_name = 'Привычку'
         verbose_name_plural = 'Привычки'
         ordering = 'action',
+
+        constraints = [
+            CheckConstraint(
+                check=models.Q(created_at__gte=0) & models.Q(created_at__lte=6),
+                name='check_created_at_range'
+            )
+        ]

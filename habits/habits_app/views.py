@@ -1,4 +1,6 @@
 from rest_framework import generics
+from datetime import datetime
+import calendar
 
 from habits_app.models import Habit
 from habits_app.serializers import HabitSerializer
@@ -13,6 +15,9 @@ class HabitListPersonalCreateAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         new_habit = serializer.save()
+        if new_habit.is_pleasant is False:
+            current_day = datetime.now().weekday()
+            new_habit.created_at = calendar.day_name[current_day]
         new_habit.creator = self.request.user
         new_habit.save()
 
