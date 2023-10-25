@@ -29,6 +29,7 @@ class Habit(models.Model):
     ]
     frequency = models.CharField(default='DLY', choices=frequency_choices,
                                  verbose_name='Частота выполнения')
+    created_at = models.CharField(**NULLABLE, verbose_name='День создания')
     place = models.CharField(**NULLABLE, max_length=100,
                              verbose_name='Место выполнения')
     is_pleasant = models.BooleanField(default=False,
