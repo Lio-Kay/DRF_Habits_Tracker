@@ -2,10 +2,8 @@ from django.db import models
 from django.core.validators import MaxValueValidator
 from django.db.models.constraints import CheckConstraint
 
-
 from habits_app.apps import HabitsAppConfig
 from accounts.models import User
-
 
 app_name = HabitsAppConfig.name
 
@@ -42,8 +40,7 @@ class Habit(models.Model):
     ]
     created_at = models.CharField(**NULLABLE, choices=created_at_choices,
                                   verbose_name='День создания')
-    place = models.CharField(**NULLABLE, max_length=100,
-                             verbose_name='Место выполнения')
+    place = models.CharField(max_length=100, verbose_name='Место выполнения')
     is_pleasant = models.BooleanField(default=False,
                                       verbose_name='Признак приятной привычки')
     related_pleasant_habit = models.ForeignKey(**NULLABLE, to='self', on_delete=models.SET_NULL,
@@ -65,14 +62,4 @@ class Habit(models.Model):
         verbose_name = 'Привычку'
         verbose_name_plural = 'Привычки'
         ordering = 'action',
-
-        constraints = [
-            CheckConstraint(
-                check=models.Q(is_pleasant=True) & models.Q(frequency=False),
-                name='only_useful_habit_frequency'
-            ),
-            CheckConstraint(
-                check=models.Q(is_pleasant=True) & models.Q(created_at_choices=False),
-                name='only_useful_habit_created_at'
-            ),
-        ]
+        # TODO add constraints
