@@ -68,7 +68,7 @@ class Habit(models.Model):
 
         constraints = [
             CheckConstraint(
-                check=models.Q(created_at__gte=0) & models.Q(created_at__lte=6),
-                name='check_created_at_range'
+                check=models.Q(is_pleasant=True) & models.Q(created_at_choices=False),
+                name='only_useful_habit_created_at'
             )
         ]
