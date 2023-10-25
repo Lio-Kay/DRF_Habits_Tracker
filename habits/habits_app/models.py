@@ -29,7 +29,7 @@ class Habit(models.Model):
         ('6d', 'Раз в 6 дней'),
         ('WLY', 'Еженедельно'),
     ]
-    frequency = models.CharField(default='DLY', choices=frequency_choices,
+    frequency = models.CharField(**NULLABLE, choices=frequency_choices,
                                  verbose_name='Частота выполнения')
     created_at_choices = [
         ('Monday', 'Понедельник'),
@@ -68,7 +68,11 @@ class Habit(models.Model):
 
         constraints = [
             CheckConstraint(
+                check=models.Q(is_pleasant=True) & models.Q(frequency=False),
+                name='only_useful_habit_frequency'
+            ),
+            CheckConstraint(
                 check=models.Q(is_pleasant=True) & models.Q(created_at_choices=False),
                 name='only_useful_habit_created_at'
-            )
+            ),
         ]
