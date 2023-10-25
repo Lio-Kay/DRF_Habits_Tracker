@@ -44,7 +44,9 @@ class User(AbstractUser):
     username = None
 
     email = models.EmailField(unique=True, verbose_name='Email')
-    nickname = models.CharField(**NULLABLE, max_length=50, verbose_name='Никнейм')
+    tg_name = models.CharField(**NULLABLE, unique=True, max_length=50, verbose_name='Telegram аккаунт')
+    chat_id = models.PositiveIntegerField(**NULLABLE, verbose_name='ID чата ТГ')
+    last_update = models.PositiveBigIntegerField(**NULLABLE, verbose_name='ID последнего сообщения')
 
     objects = CustomUserManager()
 
@@ -52,7 +54,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return f'{self.email, self.nickname}'
+        return f'{self.email, self.tg_name}'
 
     class Meta:
         verbose_name = 'пользователя'
