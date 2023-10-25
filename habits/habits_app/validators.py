@@ -22,7 +22,7 @@ class IsPleasantConstraint:
             elif frequency:
                 raise serializers.ValidationError(
                     'У приятной привычки не может быть частоты выполнения.'
-                )K
+                )
         else:
             if related_pleasant_habit and reward:
                 raise serializers.ValidationError(
