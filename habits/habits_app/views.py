@@ -11,6 +11,7 @@ from habits_app.permissons import IsOwner
 
 class HabitListPersonalCreateAPIView(generics.ListCreateAPIView):
     """Вьюсет на создание и вывод списка персональных привычек"""
+
     serializer_class = HabitSerializer
     pagination_class = HabitPaginator
 
@@ -35,6 +36,7 @@ class HabitListPersonalCreateAPIView(generics.ListCreateAPIView):
 
 class HabitListPublicAPIView(generics.ListAPIView):
     """Вьюсет на вывод списка публичных привычек"""
+
     queryset = Habit.objects.all().filter(is_public=True)
     serializer_class = HabitSerializer
     pagination_class = HabitPaginator
@@ -42,6 +44,7 @@ class HabitListPublicAPIView(generics.ListAPIView):
 
 class HabitRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """Вьюсет на детальный вывод, редактирование, удаление привычки"""
+
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = [IsOwner, IsAdminUser]

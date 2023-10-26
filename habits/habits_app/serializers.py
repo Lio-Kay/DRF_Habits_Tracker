@@ -8,8 +8,9 @@ class HabitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habit
-        fields = ('id', 'action', 'time', 'duration', 'frequency', 'created_at', 'place',
-                  'is_pleasant', 'related_pleasant_habit', 'reward', 'creator', 'is_public',)
+        fields = ('id', 'action', 'time', 'duration', 'frequency', 'created_at',
+                  'place', 'is_pleasant', 'related_pleasant_habit', 'reward',
+                  'creator', 'is_public',)
         read_only_fields = 'id', 'created_at', 'creator',
         validators = [
             IsPleasantConstraint(

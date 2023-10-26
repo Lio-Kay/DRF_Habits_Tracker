@@ -2,7 +2,9 @@ from rest_framework import serializers
 
 
 class IsPleasantConstraint:
-    """Проверка полей модели по признакам приятной привычки, полезной привычки и вознаграждения"""
+    """Проверка полей модели по признакам приятной привычки,
+    полезной привычки и вознаграждения"""
+
     def __init__(self, frequency, is_pleasant, related_pleasant_habit, reward):
         self.frequency = frequency
         self.is_pleasant = is_pleasant
