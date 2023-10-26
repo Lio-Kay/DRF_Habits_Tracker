@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,11 +31,14 @@ ADMINS = [
 
 # Application definition
 INSTALLED_APPS = [
+    'utils',
+
     'habits_app.apps.HabitsAppConfig',
     'accounts.apps.AccountsConfig',
 
     'rest_framework',
     'django_celery_beat',
+    'drf_yasg',
     'corsheaders',
 
     'django.contrib.admin',
@@ -163,8 +167,7 @@ SIMPLE_JWT = {
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
+AUTH_USER_MODEL = 'accounts.User'
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = False
@@ -204,8 +207,8 @@ CELERY_TIMEZONE = os.getenv('TIME_ZONE')
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 60 * 10
 CELERY_BEAT_SCHEDULE = {
-    '': {
-        '': '',
-        'schedule': timedelta(hours=12),
+    'check_habits': {
+        'task': 'habits_app.tasks.check_habits',
+        'schedule': crontab(hour=8, minute=0),
     },
 }
