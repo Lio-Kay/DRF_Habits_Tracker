@@ -56,9 +56,13 @@ class Habit(models.Model):
     is_public = models.BooleanField(default=False, verbose_name='Признак публичности')
 
     def __str__(self):
+        reward_or_habit = (
+            self.related_pleasant_habit.action
+            if self.related_pleasant_habit
+            else self.reward
+        )
         return f'''{self.action}, {self.duration}, {self.frequency},
-        {(self.related_pleasant_habit if self.related_pleasant_habit else self.reward)
-        if not self.is_pleasant else None}'''
+        {reward_or_habit if not self.is_pleasant else None}'''
 
     class Meta:
         verbose_name = 'Привычку'
