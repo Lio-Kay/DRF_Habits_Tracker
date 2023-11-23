@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./habits
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./habits/:/usr/src/app/
+    ports:
+      - 1337:8000
+    env_file:
+      .env
+    depends_on:
+      - db
+      - redis
+  db:
+    image: postgres
+    env_file:
+      .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+  redis:
+    image: redis:alpine
+  celery:
+    build: ./habits
+    command: celery -A habits worker -l info
+    volumes:
+      - ./habits/:/usr/src/app/
+    env_file:
+      .env
+    depends_on:
+      - db
+      - redis
+  celery-beat:
+    build: ./habits
+    command: celery -A habits beat -l info
+    volumes:
+      - ./habits/:/usr/src/app/
+    env_file:
+      .env
+    depends_on:
+      - db
+      - redis

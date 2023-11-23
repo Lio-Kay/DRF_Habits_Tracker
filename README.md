@@ -26,30 +26,15 @@ REST API на основе DRF для приложения по работе с 
 
 ## Инициализация проекта
 
-**Для работы проекта требуется PostgreSQL, Redis**
-
   ```sh
   git clone https://github.com/Lio-Kay/DRF_Habits_Tracker
+  cd .\DRF_Habits_Tracker\
   ```
 
 Создайте файл .env рядом с .env.sample и заполните его
 
-Создайте БД Postgres, запустите Redis
-
-Запустите через консоль:
   ```sh
-  poetry update
-  cd .\habits\
-  python manage.py runserver
-  ```
-Для работы с telegram:
-  ```sh
-  unix:
-  celery -A habits worker -l INFO
-  windos:
-  celery -A habits1 worker -l INFO -S eventlet
-  ---
-  celery -A habits beat -l INFO -S eventlet
+  $ docker-compose up -d --build
   ```
 
 ## Технологии в проекте
