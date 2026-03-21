@@ -5,6 +5,7 @@
 ![Redis](https://img.shields.io/badge/Redis-Cache-red)
 ![Celery](https://img.shields.io/badge/Celery-Async%20Tasks-brightgreen)
 ![Tests](https://img.shields.io/badge/tests-90%25-success)
+![Poetry](https://img.shields.io/badge/Dependency-Poetry-blueviolet)
 ## Overview
 
 REST API built with **Django Rest Framework** for an application focused on **atomic habit tracking**.
