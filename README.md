@@ -1,48 +1,70 @@
-# Бэкенд для SPA веб приложения
+# Backend for SPA Web Application
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Django](https://img.shields.io/badge/Django-DRF-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
+![Redis](https://img.shields.io/badge/Redis-Cache-red)
+![Celery](https://img.shields.io/badge/Celery-Async%20Tasks-brightgreen)
+![Tests](https://img.shields.io/badge/tests-90%25-success)
+## Overview
 
-## Описание
-REST API на основе DRF для приложения по работе с атомарными привычками.
-Пользователь имеет доступ к регистрации и авторизации пользователей, CRUD механизму
-модели привычек. Система поддерживает разделение прав доступа, на основе JWT токенов,
-валидацию на уровне сериализаторов.
-Также реализована интеграция с API telegram, для рассылки уведомлений.
-Проект покрыт unit тестами и задокументирован.
+REST API built with **Django Rest Framework** for an application focused on **atomic habit tracking**.
 
-## Пример получаемых данных на GET запрос
-![example1.png](readme_assets%2Fexample1.png)
+The system provides:
 
-## Описание структуры проекта
+- User registration and authentication
+- Full CRUD functionality for the **Habit** model
+- Access control using **JWT authentication**
+- Data validation at the **serializer level**
+
+The application also includes **integration with the Telegram API** to send notifications to users.
+
+The project includes **unit test coverage** and **API documentation**.
+
+---
+
+## Example GET Response
+
+![example1.png](readme_assets/example1.png)
+
+---
+
+## Project Structure
+
 * habits
-  - accounts - Приложение для работы с пользователями
-  - habits - Настройки проекта
-  - habits_app - Приложение для работы с привычками
-  - utils - Пакет для работы для сторонней логики
-    - TG.py - Файл интеграции с Telegram API
+  - accounts - User management
+  - habits - Project configuration
+  - habits_app - Habit management logic
+  - utils - External service integrations
+    - TG.py - Telegram API integration
   - manage.py
 
-* readme_assets - Файлы для README.md
-* .env.sample - Образец для создания env файла
+* readme_assets - Assets used in README.md
+* .env.sample - Example environment configuration
 * README.md
 
-## Инициализация проекта
 
-**Для работы проекта требуется PostgreSQL, Redis**
 
-  ```sh
-  git clone https://github.com/Lio-Kay/DRF_Habits_Tracker
+## Project Setup
+
+The project requires **PostgreSQL** and **Redis**.
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Lio-Kay/DRF_Habits_Tracker
   ```
 
-Создайте файл .env рядом с .env.sample и заполните его
+Create a .env file based on .env.sample and configure the environment variables.
 
-Создайте БД Postgres, запустите Redis
+Create a PostgreSQL database and start the Redis server.
 
-Запустите через консоль:
+Run the application:
   ```sh
   poetry update
   cd .\habits\
   python manage.py runserver
   ```
-Для работы с telegram:
+Running telegram notification workers:
   ```sh
   unix:
   celery -A habits worker -l INFO
@@ -52,8 +74,7 @@ REST API на основе DRF для приложения по работе с 
   celery -A habits beat -l INFO -S eventlet
   ```
 
-## Технологии в проекте
-Библиотеки:
+## Technologies
 * Django+DRF;
   - drf-yasg;
   - djangorestframework-simlejwt;
@@ -64,11 +85,7 @@ REST API на основе DRF для приложения по работе с 
 * python-dotenv;
 * requests.
 
-Другие особенности:
-* Переопределены модели BaseUserManager, AbstractUser для регистрации пользователя
-* Покрытие тестами более 90%
-* Документация эндпоинтов на основе OpenAPI
-
-## Возможные улучшения
-* Добавить валидацию на уровне модели
-* Реализовать авторизацию через allauth
+## Additional Features
+* Custom implementation of BaseUserManager and AbstractUser for extended user registration
+* 90%+ unit test coverage
+* API endpoint documentation generated using OpenAPI
